@@ -13,7 +13,7 @@ module Circuit_A(A, B, C, D, F);
     and(y, a, C);
     and(w, z, B);
     and(z, y, A);
-    or(F, x, W);
+    or(F, x, w);
     not(a, A);
     not(d, D);
 
