@@ -1,0 +1,16 @@
+Clock: 0 | A: 1 | B: 1 | C: 1 | D: 1 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 1, y2: 1, y3: 1
+Clock: 1 | A: 1 | B: 1 | C: 1 | D: 0 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 1 | Circuit_C: y1: 1, y2: 1, y3: 1
+Clock: 0 | A: 1 | B: 1 | C: 0 | D: 1 | Circuit_A: 1 | Circuit_B: F1: 1, F2: 0, F3: 0 | Circuit_C: y1: 1, y2: 1, y3: 1
+Clock: 1 | A: 1 | B: 1 | C: 0 | D: 0 | Circuit_A: 1 | Circuit_B: F1: 1, F2: 0, F3: 0 | Circuit_C: y1: 1, y2: 1, y3: 1
+Clock: 0 | A: 1 | B: 0 | C: 1 | D: 1 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 1 | Circuit_C: y1: 1, y2: 0, y3: 0
+Clock: 1 | A: 1 | B: 0 | C: 1 | D: 0 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 1, y2: 0, y3: 0
+Clock: 0 | A: 1 | B: 0 | C: 0 | D: 1 | Circuit_A: 0 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 1, y2: 0, y3: 0
+Clock: 1 | A: 1 | B: 0 | C: 0 | D: 0 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 1, y2: 0, y3: 0
+Clock: 0 | A: 0 | B: 1 | C: 1 | D: 1 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 1, y2: 0, y3: 0
+Clock: 1 | A: 0 | B: 1 | C: 1 | D: 0 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 1, y2: 0, y3: 0
+Clock: 0 | A: 0 | B: 1 | C: 0 | D: 1 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 1, y2: 0, y3: 0
+Clock: 1 | A: 0 | B: 1 | C: 0 | D: 0 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 1 | Circuit_C: y1: 1, y2: 0, y3: 0
+Clock: 0 | A: 0 | B: 0 | C: 1 | D: 1 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 0, y2: 0, y3: 0
+Clock: 1 | A: 0 | B: 0 | C: 1 | D: 0 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 0, y2: 0, y3: 0
+Clock: 0 | A: 0 | B: 0 | C: 0 | D: 1 | Circuit_A: 0 | Circuit_B: F1: 0, F2: 1, F3: 1 | Circuit_C: y1: 0, y2: 0, y3: 0
+Clock: 1 | A: 0 | B: 0 | C: 0 | D: 0 | Circuit_A: 1 | Circuit_B: F1: 0, F2: 1, F3: 0 | Circuit_C: y1: 0, y2: 0, y3: 0

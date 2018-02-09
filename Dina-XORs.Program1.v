@@ -1,5 +1,5 @@
 /**
-* Main.v - Homework #1 - Problem 3.34a
+* Main.v - Homework #1 - Problem 3.34
 * Software: iVerilog, http://iverilog.icarus.com/
 * Jacob Greenway, James Dunlap, Nicholas Smith, Ian Llewellyn
 */
