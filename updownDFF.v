@@ -72,13 +72,13 @@ flipflop ff2(.clock(clock), .clear_b(clear_b), .T(b2), .Q(Q2), .Qb(Qb2));
 flipflop ff3(.clock(clock), .clear_b(clear_b), .T(b3), .Q(Q3), .Qb(Qb3));
 flipflop ff4(.clock(clock), .clear_b(clear_b), .T(b4), .Q(Q4), .Qb(Qb4));
 initial begin
-	clear_b = 1;
 	clock = 0;
-	clear_b = 0;
+	clear_b = 1;
 	up = 0;
-	down = 0;
+	down = 1;
 	#1
 	clock = 1; display;
+	clear_b=0;
 	clock = 0; display;
 	clock = 1; display;
 	clock = 0; display;
@@ -87,6 +87,6 @@ initial begin
 end
 
 task display;
-	$display("B1:%0h B2:%0h B3:%0h B4:%0h",Q1,Q2,Q3,Q4);
+	$display("Clock:%0b | B1:%0b B2:%0b B3:%0b B4:%0b",clock,Q1,Q2,Q3,Q4);
 endtask
 endmodule
