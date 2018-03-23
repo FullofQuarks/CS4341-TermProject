@@ -27,15 +27,31 @@ module main;
     reg x, y;
     reg A, B, resetA, resetB;
 
-    wire nextA, nextB, nextANot, nextBNot;
+    wire dA, dB, nextA, nextB, nextANot, nextBNot;
 
+    // nextA = xy' + xB
+    wire yNot, xAndyNot, xAndB;
+    not(yNot, y);
+    and(xAndyNot, x, yNot);
+    and(xAndB, x, B);
+    or(dA, xAndyNot, xAndB);
+
+    // nextB = xA + xB'
+    wire xAndA, BNot, xAndBNot;
+    and(xAndA, x, A);
+    not(BNot, B);
+    and(xAndBNot, x, BNot);
+    or(dB, xAndA, xAndBNot);
+
+    // Flip flops
     dff DFF_A(clock, resetA, dA, nextA, nextANot);
     dff DFF_B(clock, resetB, dB, nextB, nextBNot);
 
     initial begin
 
-        // // Reset the flip flops
-        // // Reset
+        // Reset the flip flops
+        // Reset
+        // clock = 0;
         // resetA = 1;
         // A = 1'bx;
         // resetB = 1;
@@ -45,27 +61,28 @@ module main;
         // resetA = 0;
         // B = 1;
         // resetB = 0;
+        #1
 
-        clock=0; A=0; B=1; display;
-        clock=1; A=0; B=1; display;
-        clock=0; A=0; B=1; display;
-        clock=1; A=0; B=1; display;
-        clock=0; A=0; B=0; display;
-        clock=1; A=0; B=0; display;
-        clock=0; A=0; B=0; display;
-        clock=1; A=0; B=0; display;
-        clock=0; A=1; B=1; display;
-        clock=1; A=1; B=1; display;
-        clock=0; A=1; B=1; display;
-        clock=1; A=1; B=1; display;
-        clock=0; A=1; B=0; display;
-        clock=1; A=1; B=0; display;
-        clock=0; A=1; B=0; display;
-        clock=1; A=1; B=0; display;
+        clock=0; A=0; B=0; x=0; y=0; display;
+        clock=1; A=0; B=0; x=0; y=1; display;
+        clock=0; A=0; B=0; x=1; y=0; display;
+        clock=1; A=0; B=0; x=1; y=1; display;
+        clock=0; A=0; B=1; x=0; y=0; display;
+        clock=1; A=0; B=1; x=0; y=1; display;
+        clock=0; A=0; B=1; x=1; y=0; display;
+        clock=1; A=0; B=1; x=1; y=1; display;
+        clock=0; A=1; B=0; x=0; y=0; display;
+        clock=1; A=1; B=0; x=0; y=1; display;
+        clock=0; A=1; B=0; x=1; y=0; display;
+        clock=1; A=1; B=0; x=1; y=1; display;
+        clock=0; A=1; B=1; x=0; y=0; display;
+        clock=1; A=1; B=1; x=0; y=1; display;
+        clock=0; A=1; B=1; x=1; y=0; display;
+        clock=1; A=1; B=1; x=1; y=1; display;
     end
 
     task display;
-        #1 $display("Clock: %b | A: %b | B: %b | x: %b | y: %b | Next A: %b | Next B: %b | z: %b", clock, A, B, x, y, nextA, nextB, nextA);
+        #1 $display("Clock: %b | A: %b | B: %b | x: %b | y: %b | Next A: %b | Next B: %b | z: %b", clock, A, B, x, y, nextA, nextB, A);
     endtask
 
 endmodule
