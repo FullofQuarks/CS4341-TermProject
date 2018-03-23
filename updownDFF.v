@@ -46,7 +46,6 @@ endmodule
 module test;
 reg clock;
 reg clear_b;
-reg T;
 reg up;
 reg down;
 wire b1;
@@ -57,14 +56,14 @@ wire w1;
 wire w2, w3;
 wire w4, w5;
 wire w6, w7;
-wire q1, Qb1;
+wire Q1, Qb1;
 wire Q2, Qb2;
 wire Q3, Qb3;
 wire Q4, Qb4;
 
 //Set up the beginning of the circuit
 First_Bit first(.up(up), .down(down), .w1(w1), .fb(b1));
-flipflop ff1(.clock(clock), .clear_b(clear_b), .T(b1), .Q(q1), .Qb(Qb1));
+flipflop ff1(.clock(clock), .clear_b(clear_b), .T(b1), .Q(Q1), .Qb(Qb1));
 Second_Bit second(.w1(w1), .Qb1(Qb1), .up(up), .Q1(Q1), .w2(w2), .w3(w3), .sb(b2));
 Second_Bit third(.w1(w2), .Qb1(Qb2), .up(w3), .Q1(Q2), .w2(w4), .w3(w5), .sb(b3));
 Second_Bit fourth(.w1(w4), .Qb1(Qb3), .up(w5), .Q1(Q3), .w2(w6), .w3(w7), .sb(b4));
@@ -76,8 +75,9 @@ initial begin
 	clear_b = 1;
 	clock = 0;
 	clear_b = 0;
-	up = 1;
+	up = 0;
 	down = 0;
+	#1
 	clock = 1; display;
 	clock = 0; display;
 	clock = 1; display;
@@ -87,6 +87,6 @@ initial begin
 end
 
 task display;
-	#1 $display("B1:%0h B2:%0h B3:%0h B4:%0h",Q1,Q2,Q3,Q4);
+	$display("B1:%0h B2:%0h B3:%0h B4:%0h",Q1,Q2,Q3,Q4);
 endtask
 endmodule
