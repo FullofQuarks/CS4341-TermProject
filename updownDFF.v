@@ -87,6 +87,6 @@ initial begin
 end
 
 task display;
-	$display("Clock:%0b | B1:%0b B2:%0b B3:%0b B4:%0b",clock,Q1,Q2,Q3,Q4);
+	#1 $display("Clock:%0b | B1:%0b B2:%0b B3:%0b B4:%0b",clock,Q1,Q2,Q3,Q4);
 endtask
 endmodule
