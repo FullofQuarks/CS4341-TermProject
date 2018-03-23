@@ -27,7 +27,7 @@ module main;
     reg x, y;
     reg A, B, resetA, resetB;
 
-    wire dA, dB, nextA, nextB, nextANot, nextBNot;
+    wire dA, dB, qA, qB, qANot, qBNot;
 
     // nextA = xy' + xB
     wire yNot, xAndyNot, xAndB;
@@ -44,26 +44,25 @@ module main;
     or(dB, xAndA, xAndBNot);
 
     // Flip flops
-    dff DFF_A(clock, resetA, dA, nextA, nextANot);
-    dff DFF_B(clock, resetB, dB, nextB, nextBNot);
+    dff DFF_A(clock, resetA, dA, qA, qANot);
+    dff DFF_B(clock, resetB, dB, qB, qBNot);
 
     initial begin
 
         // Reset the flip flops
         // Reset
-        // clock = 0;
-        // resetA = 1;
-        // A = 1'bx;
-        // resetB = 1;
-        // B = 1'bx;
-        // // Release Reset
-        // A = 1;
-        // resetA = 0;
-        // B = 1;
-        // resetB = 0;
+        clock = 0;
+        resetA = 1;
+        A = 1'bx;
+        resetB = 1;
+        B = 1'bx;
+        // Release Reset
+        
         #1
 
         clock=0; A=0; B=0; x=0; y=0; display;
+        resetA = 0;
+        resetB = 0;
         clock=1; A=0; B=0; x=0; y=1; display;
         clock=0; A=0; B=0; x=1; y=0; display;
         clock=1; A=0; B=0; x=1; y=1; display;
@@ -82,7 +81,7 @@ module main;
     end
 
     task display;
-        #1 $display("Clock: %b | A: %b | B: %b | x: %b | y: %b | Next A: %b | Next B: %b | z: %b", clock, A, B, x, y, nextA, nextB, A);
+        #1 $display("Clock: %b | A: %b | B: %b | x: %b | y: %b | Next A: %b | Next B: %b | z: %b", clock, A, B, x, y, dA, dB, A);
     endtask
 
 endmodule
