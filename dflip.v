@@ -21,7 +21,7 @@ module dff (clk, reset,d, q, qb);
       q <= d;
     end
   end
-  endmodule
+endmodule
 
   // Testbench
 module test;
