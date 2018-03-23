@@ -11,6 +11,7 @@ module First_Bit(up, down, w1, fb);
     not(nup,up);
 endmodule
 
+//ANDs four inputs, and ORs those outputs. Used several times in the counter.
 module Second_Bit(w1, Qb1, up, Q1, w2, w3, sb);
     input w1, Qb1, up, Q1;
     output w2, w3, sb;
@@ -21,7 +22,9 @@ module Second_Bit(w1, Qb1, up, Q1, w2, w3, sb);
     or(sb,w2,w3);
 endmodule
 
-
+//The following module is the D flip flop
+//The D is xor'd with the output Q. This creates an effect
+//that mimics the T flip flop.
 module flipflop(clock, clear_b, T, Q, Qb);
 input clock, clear_b, T;
 output Q;
@@ -31,6 +34,7 @@ assign Qb = ~Q;
 wire D;
 //Turns D flip flops into T types
 assign D = T^Q;
+//Trigger on rising edge
 always @(posedge clock or posedge clear_b)
   begin
     if (clear_b) begin
@@ -43,6 +47,7 @@ always @(posedge clock or posedge clear_b)
   end
 endmodule
 
+//Testbench
 module test;
 reg clock;
 reg clear_b;
