@@ -72,6 +72,9 @@ flipflop ff2(.clock(clock), .clear_b(clear_b), .T(b2), .Q(Q2), .Qb(Qb2));
 flipflop ff3(.clock(clock), .clear_b(clear_b), .T(b3), .Q(Q3), .Qb(Qb3));
 flipflop ff4(.clock(clock), .clear_b(clear_b), .T(b4), .Q(Q4), .Qb(Qb4));
 initial begin
+	//Dump waves
+	$dumpfile("dump.vcd");
+	$dumpvars(1);
 	clock = 0;
 	clear_b = 1;
 	up = 1;
