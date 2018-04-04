@@ -11,8 +11,8 @@
 module main;
   reg clock;
   // 2 8-bit inputs (A, B) -> 8-bit output
-  reg A[0:7];
-  reg B[0:7];
+  reg [7:0] A;
+  reg [7:0] B;
 
   // TODO: A + B
 
@@ -32,6 +32,10 @@ module main;
 
   initial begin
     #1
+
+    // Initialize input as empty byte
+    A[7:0] = 8'b0;
+    B[7:0] = 8'b0;
 
     clock=0;
     clock=1; display;
