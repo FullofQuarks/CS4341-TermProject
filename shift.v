@@ -1,4 +1,4 @@
-module shift (clk, clr, data, si, so);
+module shift #(parameter MSB=8) (clk, clr, data, si, so);
     input clk,  clr, data;
     input si;
     output [7:0] so;
