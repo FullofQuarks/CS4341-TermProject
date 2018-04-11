@@ -1,4 +1,4 @@
-module ByteAnd #(parameter MSB=8) (A, B, out);
+module ByteAnd (A, B, out);
   // 8-bit inputs
   input [7:0] A;
   input [7:0] B;
@@ -15,7 +15,7 @@ module ByteAnd #(parameter MSB=8) (A, B, out);
   end
 endmodule
 
-module ByteOr #(parameter MSB=8) (A, B, out);
+module ByteOr (A, B, out);
   // 8-bit inputs
   input [7:0] A;
   input [7:0] B;
