@@ -10,7 +10,6 @@ module shift #(parameter MSB=8) (clk, clr, data, si, so);
            tmp <= 8'b00000000;
         else
            tmp <= {data, tmp[6:1]};
-            //tmp = tmp >> 1;
     end
     assign so = tmp;
 endmodule
@@ -27,27 +26,25 @@ initial begin
 	clk = 0;
 	clr = 0;
 	data = 1'b1;
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
 	clr = 1;
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
 	clr = 0;
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
-	#5 $display("Serial in:%0b Clock:%0b", so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+	#5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
 	$finish;
 end
 
