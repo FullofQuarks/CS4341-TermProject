@@ -1,3 +1,5 @@
+`include "logic.v"
+
 module FullAdder (A, B, Cin, Sum, Cout);
   input A;
   input B;
@@ -38,11 +40,20 @@ module ByteAdder (A, B, Cin, out, Cout);
   FullAdder fa7(A[7], B[7], c7, out[7], Cout);
 endmodule
 
-module BtyeSub;
+module ByteSub (A, B, Diff, Cout);
+  input [7:0] A;
+  input [7:0] B;
+
+  output [7:0] Diff;
+  output Cout;
+
+  wire [7:0] notB;
+  ByteNot byteNot(B, notB);
+  ByteAdder byteAdder(A, notB, 1'b1, Diff, Cout);
 
 endmodule
 
-module testbench;
+module addersubtestbench;
 
   reg clock;
   // 2 8-bit inputs (A, B) -> 8-bit output
@@ -51,24 +62,28 @@ module testbench;
 
   reg Cin;
 
-  wire Cout;
-  wire [7:0] Sum;
+  wire AdderOut;
+  wire SubOut;
 
-  ByteAdder byteAdder(A, B, Cin, Sum, Cout);
+  wire [7:0] Sum;
+  wire [7:0] Diff;
+
+  ByteAdder byteAdder(A, B, Cin, Sum, AdderOut);
+  ByteSub byteSub(A, B, Diff, SubOut);
 
   initial begin
     #1
 
     // Initialize input as byte
     A[7:0] = 8'b11111111;
-    B[7:0] = 8'b11111111;
+    B[7:0] = 8'b00001111;
 
     clock=0;
     clock=1; Cin=0; display;
   end
 
   task display;
-    #1 $display("Clock: %b | Cin: %b | A + B: %b | Cout: %b", clock, Cin, Sum, Cout);
+    #1 $display("Clock: %b | Cin: %b | A + B: %b | AdderCarryOut: %b | A - B: %b | SubCarryOut: %b ", clock, Cin, Sum, AdderOut, Diff, SubOut);
   endtask
 
 endmodule
