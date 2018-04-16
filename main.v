@@ -154,9 +154,10 @@ module main;
     #1
 
     // Init input as byte
-    A[7:0] = 8'b11111111;
-    B[7:0] = 8'b00000000;
+    A[7:0] = 8'b1;
+    B[7:0] = 8'b0;
 
+    // Select inputs
     // 000 = sum
     // 001 = diff
     // 010 = and
@@ -165,11 +166,35 @@ module main;
     // 101 = not
     // 110 = shift left
     // 111 = shift right
-    sel = 3'b101;
 
     // TODO: Set input and sel on clock tick
     clock=0;
-    clock=1; addCin=0; display;
+    // ADD
+    #1 $display("ADD");
+    clock=1; addCin=0; sel=3'b0; display;
+    clock=0;
+    // SUB
+    #1 $display("SUB");
+    clock=1; B=8'b10101010; sel=3'b001; display;
+    clock=0;
+    // AND
+    #1 $display("AND");
+    clock=1; A=8'b10100000; sel=3'b010; display;
+    clock=0;
+    // OR
+    #1 $display("OR");
+    clock=1; B=8'b00101100; sel=3'b011; display;
+    clock=0;
+    // XOR
+    #1 $display("XOR");
+    clock=1; A=8'b00100011; sel=3'b100; display;
+    clock=0;
+    // NOT
+    #1 $display("NOT");
+    clock=1; A=8'b00001111; sel=3'b101; display;
+    clock=0;
+
+    // TODO: Shift Left/Right
   end
 
   task display;
