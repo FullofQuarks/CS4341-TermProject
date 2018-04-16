@@ -88,7 +88,6 @@ module testbench;
   end
 
   task display;
-    // TODO: Display result of each ALU component
     #1 $display("Clock: %b | A and B: %b | A or B: %b | A xor B: %b | not A: %b", clock, AandB, AorB, AxorB, notA);
   endtask
 
