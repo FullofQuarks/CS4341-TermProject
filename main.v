@@ -2,11 +2,87 @@
  * Main.v - ALU implementation
  */
 
+// Multiplexer to choose output
+module Mux8(
+  out,
+  sel,
+  in0,
+  in1,
+  in2,
+  in3,
+  in4,
+  in5,
+  in6,
+  in7
+);
+
+  input [7:0] in0, in1, in2, in3, in4, in5, in6, in7;
+  input [2:0] sel;
+
+  output [7:0] out;
+
+  reg [7:0] out;
+
+  always @ (in0 or in1 or in2 or in3 or in4 or in5 or in6 or in7 or sel) begin
+    case (sel)
+      3'b000: out = in0;
+      3'b001: out = in1;
+      3'b010: out = in2;
+      3'b011: out = in3;
+      3'b100: out = in4;
+      3'b101: out = in5;
+      3'b110: out = in6;
+      3'b111: out = in7;
+
+      // If input is undefined then output is undefined
+      default: out = 8'bx;
+    endcase
+  end
+
+endmodule
+
+module Mux1(
+  out,
+  sel,
+  in0,
+  in1,
+  in2,
+  in3,
+  in4,
+  in5,
+  in6,
+  in7
+);
+
+  input in0, in1, in2, in3, in4, in5, in6, in7;
+  input [2:0] sel;
+
+  output out;
+
+  reg out;
+
+  always @ (in0 or in1 or in2 or in3 or in4 or in5 or in6 or in7 or sel) begin
+    case (sel)
+      3'b000: out = in0;
+      3'b001: out = in1;
+      3'b010: out = in2;
+      3'b011: out = in3;
+      3'b100: out = in4;
+      3'b101: out = in5;
+      3'b110: out = in6;
+      3'b111: out = in7;
+
+      // If input is undefined then output is undefined
+      default: out = 1'bx;
+    endcase
+  end
+
+endmodule
+
 // Include adder/subtractor, shift left/right, AND, OR, XOR, NOT
 // Overflow and carry-over
 `include "addersub.v"
 `include "shift.v"
-`include "logic.v"
 
 module main;
   reg clock;
@@ -14,38 +90,90 @@ module main;
   reg [7:0] A;
   reg [7:0] B;
 
-  // TODO: A + B
+  // A + B
+  reg addCin;
+  wire [7:0] sum;
+  wire addCout;
+  ByteAdder byteAdder(A, B, addCin, sum, addCout);
 
-  // TODO: A - B
+  // A - B
+  wire [7:0] diff;
+  wire subCout;
+  ByteSub byteSub(A, B, diff, subCout);
 
-  // TODO: Shift A Left 1 Bit
+  // A AND B
+  wire [7:0] aAndB;
+  ByteAnd byteAnd(A, B, aAndB);
 
-  // TODO: Shift A Right 1 Bit
-
-  // TOOD: A AND B
-
-  // TODO: A OR B
+  // A OR B
+  wire [7:0] aOrB;
+  ByteOr byteOr(A, B, aOrB);
   
-  // TODO: A XOR B
+  // A XOR B
+  wire [7:0] aXorB;
+  ByteXor byteXor(A, B, aXorB);
 
-  // TODO: NOT A
+  // NOT A
+  wire [7:0] notA;
+  ByteNot byteNot(A, notA);
+
+  // TODO: Shift A Left
+  wire [7:0] shiftALeft;
+
+  // TODO: Shift A Right
+  wire [7:0] shiftARight;
+
+  // Mux selector to choose the output (8 Choices)
+  wire [7:0] out;
+  reg [2:0] sel;
+  Mux8 outMux8(out, sel,
+    sum,
+    diff,
+    aAndB,
+    aOrB,
+    aXorB,
+    notA,
+    shiftALeft,
+    shiftARight
+  );
+
+  // Mux selector to choose the overflow output
+  wire overflow;
+  Mux1 overflowMux1(overflow, sel,
+    addCout,
+    subCout,
+    1'bx,
+    1'bx,
+    1'bx,
+    1'bx,
+    1'bx,
+    1'bx
+  );
 
   initial begin
     #1
 
-    // Initialize input as empty byte
-    A[7:0] = 8'b0;
-    B[7:0] = 8'b0;
+    // Init input as byte
+    A[7:0] = 8'b11111111;
+    B[7:0] = 8'b00000000;
 
+    // 000 = sum
+    // 001 = diff
+    // 010 = and
+    // 011 = or
+    // 100 = xor
+    // 101 = not
+    // 110 = shift left
+    // 111 = shift right
+    sel = 3'b101;
+
+    // TODO: Set input and sel on clock tick
     clock=0;
-    clock=1; display;
+    clock=1; addCin=0; display;
   end
 
   task display;
-    // TODO: Display result of each ALU component
-    #1 $display("Clock: %b", clock);
+    #1 $display("Clock: %b | A: %b | B: %b | AddCin: %b | Output: %b | Overflow: %b", clock, A, B, addCin, out, overflow);
   endtask
 
 endmodule
-
-

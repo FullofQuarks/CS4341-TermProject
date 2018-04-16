@@ -61,34 +61,34 @@ module ByteNot (A, out);
   end
 endmodule
 
-module testbench;
-  reg clock;
-  // 2 8-bit inputs (A, B) -> 8-bit output
-  reg [7:0] A;
-  reg [7:0] B;
-  wire [7:0] AandB;
-  wire [7:0] AorB;
-  wire [7:0] AxorB;
-  wire [7:0] notA;
+// module logictestbench;
+//   reg clock;
+//   // 2 8-bit inputs (A, B) -> 8-bit output
+//   reg [7:0] A;
+//   reg [7:0] B;
+//   wire [7:0] AandB;
+//   wire [7:0] AorB;
+//   wire [7:0] AxorB;
+//   wire [7:0] notA;
 
-  ByteAnd byteAnd(.A(A), .B(B), .out(AandB));
-  ByteOr byteOr(.A(A), .B(B), .out(AorB));
-  ByteXor byteXor(.A(A), .B(B), .out(AxorB));
-  ByteNot byteNot(.A(A), .out(notA));
+//   ByteAnd byteAnd(.A(A), .B(B), .out(AandB));
+//   ByteOr byteOr(.A(A), .B(B), .out(AorB));
+//   ByteXor byteXor(.A(A), .B(B), .out(AxorB));
+//   ByteNot byteNot(.A(A), .out(notA));
 
-  initial begin
-    #1
+//   initial begin
+//     #1
 
-    // Initialize input as byte
-    A[7:0] = 8'b11101111;
-    B[7:0] = 8'b01101101;
+//     // Initialize input as byte
+//     A[7:0] = 8'b11101111;
+//     B[7:0] = 8'b01101101;
 
-    clock=0;
-    clock=1; display;
-  end
+//     clock=0;
+//     clock=1; display;
+//   end
 
-  task display;
-    #1 $display("Clock: %b | A and B: %b | A or B: %b | A xor B: %b | not A: %b", clock, AandB, AorB, AxorB, notA);
-  endtask
+//   task display;
+//     #1 $display("Clock: %b | A and B: %b | A or B: %b | A xor B: %b | not A: %b", clock, AandB, AorB, AxorB, notA);
+//   endtask
 
-endmodule
+// endmodule
