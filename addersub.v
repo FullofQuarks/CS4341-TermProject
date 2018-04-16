@@ -53,37 +53,37 @@ module ByteSub (A, B, Diff, Cout);
 
 endmodule
 
-module addersubtestbench;
+// module addersubtestbench;
 
-  reg clock;
-  // 2 8-bit inputs (A, B) -> 8-bit output
-  reg [7:0] A;
-  reg [7:0] B;
+//   reg clock;
+//   // 2 8-bit inputs (A, B) -> 8-bit output
+//   reg [7:0] A;
+//   reg [7:0] B;
 
-  reg Cin;
+//   reg Cin;
 
-  wire AdderOut;
-  wire SubOut;
+//   wire AdderOut;
+//   wire SubOut;
 
-  wire [7:0] Sum;
-  wire [7:0] Diff;
+//   wire [7:0] Sum;
+//   wire [7:0] Diff;
 
-  ByteAdder byteAdder(A, B, Cin, Sum, AdderOut);
-  ByteSub byteSub(A, B, Diff, SubOut);
+//   ByteAdder byteAdder(A, B, Cin, Sum, AdderOut);
+//   ByteSub byteSub(A, B, Diff, SubOut);
 
-  initial begin
-    #1
+//   initial begin
+//     #1
 
-    // Initialize input as byte
-    A[7:0] = 8'b11111111;
-    B[7:0] = 8'b00001111;
+//     // Initialize input as byte
+//     A[7:0] = 8'b11111111;
+//     B[7:0] = 8'b00001111;
 
-    clock=0;
-    clock=1; Cin=0; display;
-  end
+//     clock=0;
+//     clock=1; Cin=0; display;
+//   end
 
-  task display;
-    #1 $display("Clock: %b | Cin: %b | A + B: %b | AdderCarryOut: %b | A - B: %b | SubCarryOut: %b ", clock, Cin, Sum, AdderOut, Diff, SubOut);
-  endtask
+//   task display;
+//     #1 $display("Clock: %b | Cin: %b | A + B: %b | AdderCarryOut: %b | A - B: %b | SubCarryOut: %b ", clock, Cin, Sum, AdderOut, Diff, SubOut);
+//   endtask
 
-endmodule
+// endmodule
