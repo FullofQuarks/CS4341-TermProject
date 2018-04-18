@@ -154,7 +154,7 @@ module main;
     #1
 
     // Init input as byte
-    A[7:0] = 8'b1;
+    A[7:0] = 8'b11110000;
     B[7:0] = 8'b0;
 
     // Select inputs
@@ -170,8 +170,9 @@ module main;
     // TODO: Set input and sel on clock tick
     clock=0;
     // ADD
-    #1 $display("ADD");
-    clock=1; addCin=0; sel=3'b0; display;
+    addCin=0;
+    #1 $display("ADD | Carry In: %b", addCin);
+    clock=1; sel=3'b0; display;
     clock=0;
     // SUB
     #1 $display("SUB");
@@ -198,7 +199,7 @@ module main;
   end
 
   task display;
-    #1 $display("Clock: %b | A: %b | B: %b | AddCin: %b | Output: %b | Overflow: %b", clock, A, B, addCin, out, overflow);
+    #1 $display("Clock: %b | A: %b | B: %b | Output: %b | Overflow: %b", clock, A, B, out, overflow);
   endtask
 
 endmodule
