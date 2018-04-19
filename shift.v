@@ -50,6 +50,9 @@ endmodule
 
 // shiftRight shft(.clk(clk), .clr(clr), .data(data), .so(so), .oflow(oflow));
 // initial begin
+	// $dumpfile("shift.vcd");
+	// $dumpvars;
+
 	// clk = 0;
 	// clr = 0;
 	// data = 1'b1;
@@ -76,6 +79,9 @@ endmodule
 	// #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
 	// #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
 	// #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+	// #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+	// #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+	// data = 1'b0;
 	// #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
 	// #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
 	// $finish;
