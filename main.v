@@ -118,8 +118,8 @@ module main;
   ByteNot byteNot(A, notA);
 
   // TODO: Shift A Left
-  wire clear;
-  wire dataBit;
+  reg clear;
+  reg dataBit;
   wire [7:0] shiftALeft;
     wire overflow;
   shiftLeft shftLeft(clock, clear, dataBit, shiftALeft, overflow);
@@ -200,6 +200,25 @@ module main;
     #1 $display("NOT");
     clock=1; A=8'b00001111; sel=3'b101; display;
     clock=0;
+	// Shift Left
+	#1 $display("SHIFT LEFT");
+	clear=1'b1; dataBit=A[0];
+	clock=1; dataBit=1'b1; sel=3'b110; display;
+	clock=0; clear=1'b0;
+	// Shift Left
+	repeat (8) begin
+	#1 $display("SHIFT LEFT");
+	clock=1; sel=3'b110; display;
+	clock=0;
+	end
+	clear=1'b1; clock=1;clear=1'b0;clock=0;
+	//Shift Right
+	repeat (8) begin
+	dataBit=1'b0; 
+	#1 $display("SHIFT RIGHT");
+	clock=1; sel=3'b111; display;
+	clock=0;
+	end
 
     // TODO: Shift Left/Right
   end
