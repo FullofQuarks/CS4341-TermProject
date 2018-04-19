@@ -118,10 +118,15 @@ module main;
   ByteNot byteNot(A, notA);
 
   // TODO: Shift A Left
+  wire clear;
+  wire dataBit;
   wire [7:0] shiftALeft;
+    wire overflow;
+  shiftLeft shftLeft(clock, clear, dataBit, shiftALeft, overflow);
 
   // TODO: Shift A Right
   wire [7:0] shiftARight;
+  shiftRight shftRight(clock, clear, dataBit, shiftARight, overflow);
 
   // Mux selector to choose the output (8 Choices)
   wire [7:0] out;
@@ -138,7 +143,7 @@ module main;
   );
 
   // Mux selector to choose the overflow output
-  wire overflow;
+
   Mux1 overflowMux1(overflow, sel,
     addCout,
     subCout,
@@ -152,6 +157,8 @@ module main;
 
   initial begin
     #1
+	//$dumpfile("dump.vcd");
+	//$dumpvars;
 
     // Init input as byte
     A[7:0] = 8'b1;
