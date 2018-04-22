@@ -117,16 +117,19 @@ module main;
   wire [7:0] notA;
   ByteNot byteNot(A, notA);
 
-  // Shift A Left
+  // Shift
   reg clear;
   reg dataBit;
+
+  // Shift A Left
   wire [7:0] shiftALeft;
-  wire overflow;
-  //shiftLeft shftLeft(clock, clear, dataBit, shiftALeft, overflow);
+  wire leftOverflow;
+  shiftLeft shftLeft(clock, clear, dataBit, shiftALeft, leftOverflow);
 
   // Shift A Right
   wire [7:0] shiftARight;
-  //shiftRight shftRight(clock, clear, dataBit, shiftARight, overflow);
+  wire rightOverflow;
+  shiftRight shftRight(clock, clear, dataBit, shiftARight, rightOverflow);
 
   // Mux selector to choose the output (9 Choices)
   wire [7:0] out;
@@ -143,9 +146,10 @@ module main;
   );
 
   // Mux selector to choose the overflow output (2 Choices)
+  wire overflow;
   OverflowMux overflowMux(overflow, sel,
     addCout,
-    1'bx
+    leftOverflow
   );
 
   initial begin
@@ -179,29 +183,30 @@ module main;
     // XOR
     clock=1; A=8'b00100011; sel=3'b100; $display("XOR | Mode: %b", sel); display;
     clock=0;
-    
+
     // NOT
     clock=1; A=8'b00001111; sel=3'b101; $display("NOT | Mode: %b", sel); display;
     clock=0;
-    // // Shift Left
-    // #1 $display("SHIFT LEFT");
-    // clear=1'b1; dataBit=A[0];
-    // clock=1; dataBit=1'b1; sel=3'b110; display;
-    // clock=0; clear=1'b0;
-    // // Shift Left
-    // repeat (8) begin
-    // #1 $display("SHIFT LEFT");
-    // clock=1; sel=3'b110; display;
-    // clock=0;
-    // end
-    // clear=1'b1; clock=1;clear=1'b0;clock=0;
-    // //Shift Right
-    // repeat (8) begin
-    // dataBit=1'b0; 
-    // #1 $display("SHIFT RIGHT");
-    // clock=1; sel=3'b111; display;
-    // clock=0;
-    // end
+
+    // Shift Left
+    #1 $display("SHIFT LEFT");
+    clear=1'b1; dataBit=A[0];
+    clock=1; dataBit=1'b1; sel=3'b110; display;
+    clock=0; clear=1'b0;
+    // Shift Left
+    repeat (8) begin
+    #1 $display("SHIFT LEFT");
+    clock=1; sel=3'b110; display;
+    clock=0;
+    end
+    clear=1'b1; clock=1;clear=1'b0;clock=0;
+    //Shift Right
+    repeat (8) begin
+    dataBit=1'b0; 
+    #1 $display("SHIFT RIGHT");
+    clock=1; sel=3'b111; display;
+    clock=0;
+    end
   end
 
   task display;
