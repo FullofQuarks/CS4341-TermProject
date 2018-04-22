@@ -146,6 +146,9 @@ module main;
   // Last Solution
   reg [7:0] lastSolution;
 
+  // Solution
+  reg [7:0] solution;
+
   // Mux selector to choose the output (9 Choices)
   wire [7:0] out;
   reg [3:0] mode;
@@ -168,9 +171,22 @@ module main;
     leftOverflow
   );
 
-  // Set the last solution to the output on each clock tick
+  // Set the solution and last solution to the output on each clock tick
   always @(posedge clock) begin
-    lastSolution = out;
+    solution = out;
+    lastSolution = solution;
+  end
+
+  // Set A, B, Last Solution, and Solution to 8'b0 if reset is 1'b1
+  reg reset;
+  always @(posedge clock) begin
+    if (reset == 1'b1) begin
+      // Reset Registers
+      A = 8'b0;
+      B = 8'b0;
+      lastSolution = 8'b0;
+      solution = 8'b0;
+    end
   end
 
   initial begin
@@ -186,16 +202,20 @@ module main;
     clock=0;
 
     // ADD
-    clock=1; mode=4'b0000; #1 $display("ADD | Mode: %b | AddCin: %b", mode, addCin); display;
+    clock=1; mode=4'b0000; $display("ADD | Mode: %b | AddCin: %b", mode, addCin); display;
     clock=0;
 
     // SUB
-    clock=1; B=8'b10101010; mode=4'b0001; #1 $display("SUB | Mode: %b", mode); display;
+    clock=1; B=8'b10101010; mode=4'b0001; $display("SUB | Mode: %b", mode); display;
     clock=0;
 
     // AND
     clock=1; A=8'b10100000; mode=4'b0010; $display("AND | Mode: %b", mode); display;
     clock=0;
+
+    // RESET
+    reset=1'b1; clock=1; #1 $display("RESET REGISTERS"); display;
+    clock=0; reset=1'b0;
 
     // OR
     clock=1; B=8'b00101100; mode=4'b0011; $display("OR | Mode: %b", mode); display;
