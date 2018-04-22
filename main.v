@@ -192,25 +192,30 @@ module main;
   initial begin
     #1
 
-    // Init input as byte
-    A[7:0] = 8'b11111111;
-    B[7:0] = 8'b0;
-
-    addCin=1;
-
     // Set input and sel on clock tick
     clock=0;
 
     // ADD
+    A[7:0]=8'b11111100; B[7:0]=8'b0; addCin=1;
+    clock=1; mode=4'b0000; $display("ADD | Mode: %b | AddCin: %b", mode, addCin); display;
+    clock=0;
+
+    A[7:0]=8'b10101010; B[7:0]=8'b01010101; addCin=0;
     clock=1; mode=4'b0000; $display("ADD | Mode: %b | AddCin: %b", mode, addCin); display;
     clock=0;
 
     // SUB
-    clock=1; B=8'b10101010; mode=4'b0001; $display("SUB | Mode: %b", mode); display;
+    A[7:0]=8'b10101010; B[7:0]=8'b01010101;
+    clock=1; mode=4'b0001; $display("SUB | Mode: %b", mode); display;
+    clock=0;
+
+    A[7:0]=8'b11110000; B[7:0]=8'b11000000;
+    clock=1; mode=4'b0001; $display("SUB | Mode: %b", mode); display;
     clock=0;
 
     // AND
-    clock=1; A=8'b10100000; mode=4'b0010; $display("AND | Mode: %b", mode); display;
+    A[7:0]=8'b11111111; B[7:0]=8'b10101010;
+    clock=1; mode=4'b0010; $display("AND | Mode: %b", mode); display;
     clock=0;
 
     // RESET
@@ -218,38 +223,42 @@ module main;
     clock=0; reset=1'b0;
 
     // OR
-    clock=1; B=8'b00101100; mode=4'b0011; $display("OR | Mode: %b", mode); display;
+    clock=1; mode=4'b0011; $display("OR | Mode: %b", mode); display;
+    clock=0;
+
+    A[7:0]=8'b10101111; B[7:0]=8'b00101100;
+    clock=1; mode=4'b0011; $display("OR | Mode: %b", mode); display;
     clock=0;
 
     // LAST SOLUTION
     clock=1; mode=4'b1000; $display("LAST SOL | Mode: %b", mode); display;
 
     // XOR
-    clock=1; A=8'b00100011; mode=4'b0100; $display("XOR | Mode: %b", mode); display;
+    A[7:0]=8'b11111111; B[7:0]=8'b00101100;
+    clock=1; mode=4'b0100; $display("XOR | Mode: %b", mode); display;
     clock=0;
 
-    // NOT
-    clock=1; A=8'b00001111; mode=4'b0101; $display("NOT | Mode: %b", mode); display;
+    // NOT A
+    clock=1; mode=4'b0101; $display("NOT A | Mode: %b", mode); display;
     clock=0;
 
-    // Shift Left
-    #1 $display("SHIFT LEFT");
-    clear=1'b1; dataBit=A[0];
-    clock=1; dataBit=1'b1; mode=4'b0110; display;
-    clock=0; clear=1'b0;
-    // Shift Left
+    // Shift Setup
+    clear=1'b1; dataBit=A[0]; clock=1; dataBit=1'b1; mode=4'b0110; #1 clock=0; clear=1'b0;
+
+    // SHIFT A LEFT
     repeat (8) begin
-    #1 $display("SHIFT LEFT");
-    clock=1; mode=4'b110; display;
-    clock=0;
+      clock=1; mode=4'b110; $display("SHIFT A LEFT | Mode: %b", mode); display;
+      clock=0;
     end
-    clear=1'b1; clock=1;clear=1'b0;clock=0;
-    //Shift Right
+
+    // Clear Shift Register
+    clear=1'b1; clock=1; clear=1'b0; clock=0;
+
+    // SHIFT A RIGHT
     repeat (8) begin
-    dataBit=1'b0; 
-    #1 $display("SHIFT RIGHT");
-    clock=1; mode=4'b0111; display;
-    clock=0;
+      dataBit=1'b0;
+      clock=1; mode=4'b0111; $display("SHIFT A RIGHT | Mode: %b", mode); display;
+      clock=0;
     end
   end
 
