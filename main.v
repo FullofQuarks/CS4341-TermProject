@@ -81,8 +81,6 @@ module main;
   reg [7:0] B;
 
   // Mode params for output and overflow mux
-
-  // Select inputs
   // 000 = sum
   // 001 = diff
   // 010 = and
@@ -163,27 +161,27 @@ module main;
     clock=0;
 
     // ADD
-    clock=1; sel=3'b000; #1 $display("ADD | AddCin: %b", addCin); display;
+    clock=1; sel=3'b000; #1 $display("ADD | Mode: %b | AddCin: %b", sel, addCin); display;
     clock=0;
+
     // SUB
-    #1 $display("SUB");
-    clock=1; B=8'b10101010; sel=3'b001; display;
+    clock=1; B=8'b10101010; sel=3'b001; #1 $display("SUB | Mode: %b", sel); display;
     clock=0;
+
     // AND
-    #1 $display("AND");
-    clock=1; A=8'b10100000; sel=3'b010; display;
+    clock=1; A=8'b10100000; sel=3'b010; $display("AND | Mode: %b", sel); display;
     clock=0;
+
     // OR
-    #1 $display("OR");
-    clock=1; B=8'b00101100; sel=3'b011; display;
+    clock=1; B=8'b00101100; sel=3'b011; $display("OR | Mode: %b", sel); display;
     clock=0;
+
     // XOR
-    #1 $display("XOR");
-    clock=1; A=8'b00100011; sel=3'b100; display;
+    clock=1; A=8'b00100011; sel=3'b100; $display("XOR | Mode: %b", sel); display;
     clock=0;
+    
     // NOT
-    #1 $display("NOT");
-    clock=1; A=8'b00001111; sel=3'b101; display;
+    clock=1; A=8'b00001111; sel=3'b101; $display("NOT | Mode: %b", sel); display;
     clock=0;
     // // Shift Left
     // #1 $display("SHIFT LEFT");
@@ -207,7 +205,7 @@ module main;
   end
 
   task display;
-    #1 $display("Clock: %b | A: %b | B: %b | Output: %b | Overflow: %b", clock, A, B, out, overflow);
+    #1 $display("Clock: %b | A: %b | B: %b | Output: %b | Overflow: %b\n", clock, A, B, out, overflow);
   endtask
 
 endmodule
