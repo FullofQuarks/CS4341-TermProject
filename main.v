@@ -3,7 +3,7 @@
  */
 
 // Multiplexer to choose output
-module Mux8(
+module DisplayMux(
   out,
   sel,
   in0,
@@ -13,26 +13,37 @@ module Mux8(
   in4,
   in5,
   in6,
-  in7
+  in7,
+  in8
 );
 
-  input [7:0] in0, in1, in2, in3, in4, in5, in6, in7;
-  input [2:0] sel;
+  input [7:0] in0, in1, in2, in3, in4, in5, in6, in7, in8;
+  input [3:0] sel;
 
   output [7:0] out;
 
   reg [7:0] out;
 
-  always @ (in0 or in1 or in2 or in3 or in4 or in5 or in6 or in7 or sel) begin
+  always @ (in0 or in1 or in2 or in3 or in4 or in5 or in6 or in7 or in8 or sel) begin
     case (sel)
-      3'b000: out = in0;
-      3'b001: out = in1;
-      3'b010: out = in2;
-      3'b011: out = in3;
-      3'b100: out = in4;
-      3'b101: out = in5;
-      3'b110: out = in6;
-      3'b111: out = in7;
+      // ADD
+      4'b0000: out = in0;
+      // SUB
+      4'b0001: out = in1;
+      // AND
+      4'b0010: out = in2;
+      // OR
+      4'b0011: out = in3;
+      // XOR
+      4'b0100: out = in4;
+      // NOT
+      4'b0101: out = in5;
+      // SHIFT LEFT
+      4'b0110: out = in6;
+      // SHIFT RIGHT
+      4'b0111: out = in7;
+      // LAST SOLUTION
+      4'b1000: out = in8;
 
       // If input is undefined then output is undefined
       default: out = 8'bx;
@@ -41,36 +52,26 @@ module Mux8(
 
 endmodule
 
-module Mux1(
+module OverflowMux(
   out,
   sel,
   in0,
-  in1,
-  in2,
-  in3,
-  in4,
-  in5,
-  in6,
-  in7
+  in1
 );
 
-  input in0, in1, in2, in3, in4, in5, in6, in7;
-  input [2:0] sel;
+  input in0, in1;
+  input [3:0] sel;
 
   output out;
 
   reg out;
 
-  always @ (in0 or in1 or in2 or in3 or in4 or in5 or in6 or in7 or sel) begin
+  always @ (in0 or in1 or sel) begin
     case (sel)
-      3'b000: out = in0;
-      3'b001: out = in1;
-      3'b010: out = in2;
-      3'b011: out = in3;
-      3'b100: out = in4;
-      3'b101: out = in5;
-      3'b110: out = in6;
-      3'b111: out = in7;
+      // Add
+      4'b0000: out = in0;
+      // Shift Left
+      4'b0110: out = in1;
 
       // If input is undefined then output is undefined
       default: out = 1'bx;
@@ -89,6 +90,17 @@ module main;
   // 2 8-bit inputs (A, B) -> 8-bit output
   reg [7:0] A;
   reg [7:0] B;
+
+  // Mode params for output and overflow mux
+  // 0000 = sum
+  // 0001 = diff
+  // 0010 = and
+  // 0011 = or
+  // 0100 = xor
+  // 0101 = not
+  // 0110 = shift left
+  // 0111 = shift right
+  // 1000 = last solution
 
   // A + B
   reg addCin;
@@ -117,21 +129,30 @@ module main;
   wire [7:0] notA;
   ByteNot byteNot(A, notA);
 
-  // TODO: Shift A Left
+  // Shift
   reg clear;
   reg dataBit;
+
+  // Shift A Left
   wire [7:0] shiftALeft;
-    wire overflow;
-  shiftLeft shftLeft(clock, clear, dataBit, shiftALeft, overflow);
+  wire leftOverflow;
+  shiftLeft shftLeft(clock, clear, dataBit, shiftALeft, leftOverflow);
 
-  // TODO: Shift A Right
+  // Shift A Right
   wire [7:0] shiftARight;
-  shiftRight shftRight(clock, clear, dataBit, shiftARight, overflow);
+  wire rightOverflow;
+  shiftRight shftRight(clock, clear, dataBit, shiftARight, rightOverflow);
 
-  // Mux selector to choose the output (8 Choices)
+  // Last Solution
+  reg [7:0] lastSolution;
+
+  // Solution
+  reg [7:0] solution;
+
+  // Mux selector to choose the output (9 Choices)
   wire [7:0] out;
-  reg [2:0] sel;
-  Mux8 outMux8(out, sel,
+  reg [3:0] mode;
+  DisplayMux displayMux(out, mode,
     sum,
     diff,
     aAndB,
@@ -139,92 +160,101 @@ module main;
     aXorB,
     notA,
     shiftALeft,
-    shiftARight
+    shiftARight,
+    lastSolution
   );
 
-  // Mux selector to choose the overflow output
-
-  Mux1 overflowMux1(overflow, sel,
+  // Mux selector to choose the overflow output (2 Choices)
+  wire overflow;
+  OverflowMux overflowMux(overflow, mode,
     addCout,
-    subCout,
-    1'bx,
-    1'bx,
-    1'bx,
-    1'bx,
-    1'bx,
-    1'bx
+    leftOverflow
   );
+
+  // Set the solution and last solution to the output on each clock tick
+  always @(posedge clock) begin
+    solution = out;
+    lastSolution = solution;
+  end
+
+  // Set A, B, Last Solution, and Solution to 8'b0 if reset is 1'b1
+  reg reset;
+  always @(posedge clock) begin
+    if (reset == 1'b1) begin
+      // Reset Registers
+      A = 8'b0;
+      B = 8'b0;
+      lastSolution = 8'b0;
+      solution = 8'b0;
+    end
+  end
 
   initial begin
     #1
-	//$dumpfile("dump.vcd");
-	//$dumpvars;
 
     // Init input as byte
-    A[7:0] = 8'b1;
+    A[7:0] = 8'b11111111;
     B[7:0] = 8'b0;
 
-    // Select inputs
-    // 000 = sum
-    // 001 = diff
-    // 010 = and
-    // 011 = or
-    // 100 = xor
-    // 101 = not
-    // 110 = shift left
-    // 111 = shift right
+    addCin=1;
 
-    // TODO: Set input and sel on clock tick
+    // Set input and sel on clock tick
     clock=0;
+
     // ADD
-    #1 $display("ADD");
-    clock=1; addCin=0; sel=3'b0; display;
+    clock=1; mode=4'b0000; $display("ADD | Mode: %b | AddCin: %b", mode, addCin); display;
     clock=0;
-    // SUB
-    #1 $display("SUB");
-    clock=1; B=8'b10101010; sel=3'b001; display;
-    clock=0;
-    // AND
-    #1 $display("AND");
-    clock=1; A=8'b10100000; sel=3'b010; display;
-    clock=0;
-    // OR
-    #1 $display("OR");
-    clock=1; B=8'b00101100; sel=3'b011; display;
-    clock=0;
-    // XOR
-    #1 $display("XOR");
-    clock=1; A=8'b00100011; sel=3'b100; display;
-    clock=0;
-    // NOT
-    #1 $display("NOT");
-    clock=1; A=8'b00001111; sel=3'b101; display;
-    clock=0;
-	// Shift Left
-	#1 $display("SHIFT LEFT");
-	clear=1'b1; dataBit=A[0];
-	clock=1; dataBit=1'b1; sel=3'b110; display;
-	clock=0; clear=1'b0;
-	// Shift Left
-	repeat (8) begin
-	#1 $display("SHIFT LEFT");
-	clock=1; sel=3'b110; display;
-	clock=0;
-	end
-	clear=1'b1; clock=1;clear=1'b0;clock=0;
-	//Shift Right
-	repeat (8) begin
-	dataBit=1'b0; 
-	#1 $display("SHIFT RIGHT");
-	clock=1; sel=3'b111; display;
-	clock=0;
-	end
 
-    // TODO: Shift Left/Right
+    // SUB
+    clock=1; B=8'b10101010; mode=4'b0001; $display("SUB | Mode: %b", mode); display;
+    clock=0;
+
+    // AND
+    clock=1; A=8'b10100000; mode=4'b0010; $display("AND | Mode: %b", mode); display;
+    clock=0;
+
+    // RESET
+    reset=1'b1; clock=1; #1 $display("RESET REGISTERS"); display;
+    clock=0; reset=1'b0;
+
+    // OR
+    clock=1; B=8'b00101100; mode=4'b0011; $display("OR | Mode: %b", mode); display;
+    clock=0;
+
+    // LAST SOLUTION
+    clock=1; mode=4'b1000; $display("LAST SOL | Mode: %b", mode); display;
+
+    // XOR
+    clock=1; A=8'b00100011; mode=4'b0100; $display("XOR | Mode: %b", mode); display;
+    clock=0;
+
+    // NOT
+    clock=1; A=8'b00001111; mode=4'b0101; $display("NOT | Mode: %b", mode); display;
+    clock=0;
+
+    // Shift Left
+    #1 $display("SHIFT LEFT");
+    clear=1'b1; dataBit=A[0];
+    clock=1; dataBit=1'b1; mode=4'b0110; display;
+    clock=0; clear=1'b0;
+    // Shift Left
+    repeat (8) begin
+    #1 $display("SHIFT LEFT");
+    clock=1; mode=4'b110; display;
+    clock=0;
+    end
+    clear=1'b1; clock=1;clear=1'b0;clock=0;
+    //Shift Right
+    repeat (8) begin
+    dataBit=1'b0; 
+    #1 $display("SHIFT RIGHT");
+    clock=1; mode=4'b0111; display;
+    clock=0;
+    end
   end
 
   task display;
-    #1 $display("Clock: %b | A: %b | B: %b | AddCin: %b | Output: %b | Overflow: %b", clock, A, B, addCin, out, overflow);
+    #1 $display("Clock: %b | A: %b | B: %b | Output: %b | Overflow: %b\n", clock, A, B, out, overflow);
   endtask
 
 endmodule
