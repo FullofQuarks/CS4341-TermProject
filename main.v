@@ -3,7 +3,7 @@
  */
 
 // Multiplexer to choose output
-module Mux8(
+module DisplayMux(
   out,
   sel,
   in0,
@@ -41,17 +41,11 @@ module Mux8(
 
 endmodule
 
-module Mux1(
+module OverflowMux(
   out,
   sel,
   in0,
-  in1,
-  in2,
-  in3,
-  in4,
-  in5,
-  in6,
-  in7
+  in1
 );
 
   input in0, in1, in2, in3, in4, in5, in6, in7;
@@ -61,16 +55,10 @@ module Mux1(
 
   reg out;
 
-  always @ (in0 or in1 or in2 or in3 or in4 or in5 or in6 or in7 or sel) begin
+  always @ (in0 or in1 or sel) begin
     case (sel)
-      3'b000: out = in0;
-      3'b001: out = in1;
-      3'b010: out = in2;
-      3'b011: out = in3;
-      3'b100: out = in4;
-      3'b101: out = in5;
-      3'b110: out = in6;
-      3'b111: out = in7;
+      3'b0: out = in0;
+      3'b1: out = in1;
 
       // If input is undefined then output is undefined
       default: out = 1'bx;
@@ -121,7 +109,7 @@ module main;
   reg clear;
   reg dataBit;
   wire [7:0] shiftALeft;
-    wire overflow;
+  wire overflow;
   shiftLeft shftLeft(clock, clear, dataBit, shiftALeft, overflow);
 
   // TODO: Shift A Right
@@ -131,7 +119,7 @@ module main;
   // Mux selector to choose the output (8 Choices)
   wire [7:0] out;
   reg [2:0] sel;
-  Mux8 outMux8(out, sel,
+  DisplayMux displayMux(out, sel,
     sum,
     diff,
     aAndB,
@@ -144,15 +132,8 @@ module main;
 
   // Mux selector to choose the overflow output
 
-  Mux1 overflowMux1(overflow, sel,
+  OverflowMux overflowMux(overflow, sel,
     addCout,
-    subCout,
-    1'bx,
-    1'bx,
-    1'bx,
-    1'bx,
-    1'bx,
-    1'bx
   );
 
   initial begin
@@ -163,6 +144,8 @@ module main;
     // Init input as byte
     A[7:0] = 8'b1;
     B[7:0] = 8'b0;
+
+    addCin=0;
 
     // Select inputs
     // 000 = sum
@@ -177,8 +160,8 @@ module main;
     // TODO: Set input and sel on clock tick
     clock=0;
     // ADD
-    #1 $display("ADD");
-    clock=1; addCin=0; sel=3'b0; display;
+    #1 $display("ADD | AddCin: %b", addCin);
+    clock=1; sel=3'b0; display;
     clock=0;
     // SUB
     #1 $display("SUB");
@@ -200,31 +183,31 @@ module main;
     #1 $display("NOT");
     clock=1; A=8'b00001111; sel=3'b101; display;
     clock=0;
-	// Shift Left
-	#1 $display("SHIFT LEFT");
-	clear=1'b1; dataBit=A[0];
-	clock=1; dataBit=1'b1; sel=3'b110; display;
-	clock=0; clear=1'b0;
-	// Shift Left
-	repeat (8) begin
-	#1 $display("SHIFT LEFT");
-	clock=1; sel=3'b110; display;
-	clock=0;
-	end
-	clear=1'b1; clock=1;clear=1'b0;clock=0;
-	//Shift Right
-	repeat (8) begin
-	dataBit=1'b0; 
-	#1 $display("SHIFT RIGHT");
-	clock=1; sel=3'b111; display;
-	clock=0;
-	end
+	// // Shift Left
+	// #1 $display("SHIFT LEFT");
+	// clear=1'b1; dataBit=A[0];
+	// clock=1; dataBit=1'b1; sel=3'b110; display;
+	// clock=0; clear=1'b0;
+	// // Shift Left
+	// repeat (8) begin
+	// #1 $display("SHIFT LEFT");
+	// clock=1; sel=3'b110; display;
+	// clock=0;
+	// end
+	// clear=1'b1; clock=1;clear=1'b0;clock=0;
+	// //Shift Right
+	// repeat (8) begin
+	// dataBit=1'b0; 
+	// #1 $display("SHIFT RIGHT");
+	// clock=1; sel=3'b111; display;
+	// clock=0;
+	// end
 
     // TODO: Shift Left/Right
   end
 
   task display;
-    #1 $display("Clock: %b | A: %b | B: %b | AddCin: %b | Output: %b | Overflow: %b", clock, A, B, addCin, out, overflow);
+    #1 $display("Clock: %b | A: %b | B: %b | Output: %b | Overflow: %b", clock, A, B, out, overflow);
   endtask
 
 endmodule
