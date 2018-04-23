@@ -1,12 +1,11 @@
 module shiftRight #(parameter MSB=8) (clk, clr, si, so, oflow);
-    input clk,  clr, data;
+    input clk,  clr;
     input [7:0] si;
     output [7:0] so;
     output oflow;
     
     reg bitOut;
     reg [7:0] tmp;
-	reg bitOut;
     always @(posedge clk or posedge clr)
     begin
         if (clr)
