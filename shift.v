@@ -21,6 +21,29 @@ module shiftRight #(parameter MSB=8) (clk, clr, si, so, oflow);
     assign oflow = bitOut;
 endmodule
 
+module shiftLeft #(parameter MSB=8) (clk, clr, si, so, oflow);
+input clk, clr;
+input [7:0] si;
+output [7:0] so;
+output oflow;
+
+reg bitOut;
+reg [7:0] tmp;
+always @(posedge clk or posedge clr)
+begin
+	if(clr)
+		tmp <= 8'b00000000;
+	else
+	begin
+		tmp = si;
+		bitOut <= tmp[7];
+		tmp <= {tmp[6:0], 1'b0};
+	end
+end
+assign so = tmp;
+assign oflow = bitOut;
+endmodule
+
 //module shifttestbench;
 //reg clk;
 //reg clr;
