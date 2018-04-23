@@ -44,50 +44,50 @@ assign so = tmp;
 assign oflow = bitOut;
 endmodule
 
-//module shifttestbench;
-//reg clk;
-//reg clr;
-//reg data;
-//reg [7:0] si;
-//wire [7:0] so;
-//wire oflow;
-//
-//shiftRight shft(.clk(clk), .clr(clr), .si(si), .so(so), .oflow(oflow));
-//initial begin
-// $dumpfile("shift.vcd");
-// $dumpvars;
-// clk = 0;
-// clr = 0;
-// si=8'b11110000;
-// #5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
-// clr = 1;
-// #5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
-// clr = 0;
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-// #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
-//	 
-// $finish;
-//
-// end
-//
-// always #5 clk = ~clk;
-// endmodule
+// module shifttestbench;
+// reg clk;
+// reg clr;
+// reg data;
+// reg [7:0] si;
+// wire [7:0] so;
+// wire oflow;
+// 
+// shiftRight shft(.clk(clk), .clr(clr), .si(si), .so(so), .oflow(oflow));
+// initial begin
+//  $dumpfile("shift.vcd");
+//  $dumpvars;
+//  clk = 0;
+//  clr = 0;
+//  si=8'b11110001;
+//  #5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+//  clr = 1;
+//  #5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+//  clr = 0;
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+//  #5 $display("Serial In: %b out:%b Clock:%0b Oflow:%0b", si, so, clk, oflow);
+// 	 
+//  $finish;
+// 
+//  end
+// 
+//  always #5 clk = ~clk;
+//  endmodule
