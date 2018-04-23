@@ -6,6 +6,7 @@ module shiftRight #(parameter MSB=8) (clk, clr, si, so, oflow);
     
     reg bitOut;
     reg [7:0] tmp;
+	reg bitOut;
     always @(posedge clk or posedge clr)
     begin
         if (clr)
