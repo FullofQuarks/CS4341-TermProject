@@ -1,0 +1,83 @@
+[Running] main.v
+ADD | Mode: 0000 | AddCin: 1
+A: 11111100 | B: 00000000 | Output: 11111101 | Overflow: 0
+
+ADD | Mode: 0000 | AddCin: 0
+A: 10101010 | B: 01010101 | Output: 11111111 | Overflow: 0
+
+SUB | Mode: 0001
+A: 10101010 | B: 11110000 | Output: 10111010 | Overflow: x
+
+SUB | Mode: 0001
+A: 11110000 | B: 11000000 | Output: 00110000 | Overflow: x
+
+AND | Mode: 0010
+A: 11111111 | B: 10101010 | Output: 10101010 | Overflow: x
+
+RESET REGISTERS
+A: 00000000 | B: 00000000 | Output: 00000000 | Overflow: x
+
+OR | Mode: 0011
+A: 00000000 | B: 00000000 | Output: 00000000 | Overflow: x
+
+OR | Mode: 0011
+A: 10101111 | B: 00101100 | Output: 10101111 | Overflow: x
+
+LAST SOLUTION | Mode: 1000
+A: 10101111 | B: 00101100 | Output: 10101111 | Overflow: x
+
+XOR | Mode: 0100
+A: 11111111 | B: 00101100 | Output: 11010011 | Overflow: x
+
+NOT A | Mode: 0101
+A: 11111111 | B: 00101100 | Output: 00000000 | Overflow: x
+
+SHIFT A LEFT | Mode: 0110
+A: 11111111 | B: 00101100 | Output: 11111110 | Overflow: 1
+
+SHIFT A LEFT | Mode: 0110
+A: 11111110 | B: 00101100 | Output: 11111100 | Overflow: 1
+
+SHIFT A LEFT | Mode: 0110
+A: 11111100 | B: 00101100 | Output: 11111000 | Overflow: 1
+
+SHIFT A LEFT | Mode: 0110
+A: 11111000 | B: 00101100 | Output: 11110000 | Overflow: 1
+
+SHIFT A LEFT | Mode: 0110
+A: 11110000 | B: 00101100 | Output: 11100000 | Overflow: 1
+
+SHIFT A LEFT | Mode: 0110
+A: 11100000 | B: 00101100 | Output: 11000000 | Overflow: 1
+
+SHIFT A LEFT | Mode: 0110
+A: 11000000 | B: 00101100 | Output: 10000000 | Overflow: 1
+
+SHIFT A LEFT | Mode: 0110
+A: 10000000 | B: 00101100 | Output: 00000000 | Overflow: 1
+
+SHIFT A RIGHT | Mode: 0111
+A: 11111111 | B: 00101100 | Output: 01111111 | Overflow: x
+
+SHIFT A RIGHT | Mode: 0111
+A: 01111111 | B: 00101100 | Output: 00111111 | Overflow: x
+
+SHIFT A RIGHT | Mode: 0111
+A: 00111111 | B: 00101100 | Output: 00011111 | Overflow: x
+
+SHIFT A RIGHT | Mode: 0111
+A: 00011111 | B: 00101100 | Output: 00001111 | Overflow: x
+
+SHIFT A RIGHT | Mode: 0111
+A: 00001111 | B: 00101100 | Output: 00000111 | Overflow: x
+
+SHIFT A RIGHT | Mode: 0111
+A: 00000111 | B: 00101100 | Output: 00000011 | Overflow: x
+
+SHIFT A RIGHT | Mode: 0111
+A: 00000011 | B: 00101100 | Output: 00000001 | Overflow: x
+
+SHIFT A RIGHT | Mode: 0111
+A: 00000001 | B: 00101100 | Output: 00000000 | Overflow: x
+
+[Done] exit with code=0 in 0.038 seconds
