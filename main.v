@@ -136,12 +136,12 @@ module main;
   // Shift A Left
   wire [7:0] shiftALeft;
   wire leftOverflow;
-  shiftLeft shftLeft(clock, clear, dataBit, shiftALeft, leftOverflow);
+  shiftLeft shftLeft(clock, clear, A, shiftALeft, leftOverflow);
 
   // Shift A Right
   wire [7:0] shiftARight;
   wire rightOverflow;
-  shiftRight shftRight(clock, clear, dataBit, shiftARight, rightOverflow);
+  shiftRight shftRight(clock, clear, A, shiftARight, rightOverflow);
 
   // Last Solution
   reg [7:0] lastSolution;
