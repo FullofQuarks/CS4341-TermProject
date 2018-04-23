@@ -1,5 +1,6 @@
-module shift #(parameter MSB=8) (clk, clr, data, so, oflow);
+module shiftRight #(parameter MSB=8) (clk, clr, si, data, so, oflow);
     input clk,  clr, data;
+    input [7:0] si;
     output [7:0] so;
     output oflow;
     
@@ -9,53 +10,62 @@ module shift #(parameter MSB=8) (clk, clr, data, so, oflow);
         if (clr)
            tmp <= 8'b00000000;
         else
-           tmp <= {data, tmp[7:1]};
+		begin
+		   bitOut <= tmp[0];
+           tmp <= {data, si[7:1]};
+		end
     end
     assign so = tmp;
     assign oflow = tmp[0];
 endmodule
 
-module testbench;
+module shifttestbench;
 reg clk;
 reg clr;
-reg si;
 reg data;
+reg [7:0] si;
 wire [7:0] so;
 wire oflow;
 
-shift shft(.clk(clk), .clr(clr), .data(data), .so(so), .oflow(oflow));
+shiftRight shft(.clk(clk), .clr(clr), .si(si), .data(data), .so(so), .oflow(oflow));
 initial begin
-	clk = 0;
-	clr = 0;
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	data = 1'b1;
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	clr = 1;
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	clr = 0;
+ $dumpfile("shift.vcd");
+ $dumpvars;
+ clk = 0;
+ clr = 0;
+ data = 1'b1;
+ si=8'b11110000;
+ #5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+ clr = 1;
+ #5 $display("Data in: %0b out:%0b Clock:%0b", data, so, clk);
+ clr = 0;
+ #5 $display("Serial In: %b Data in: %b out:%b Clock:%0b Oflow:%0b", si, data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+  #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+  #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+  #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+  #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+  #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
 	data = 1'b0;
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	data = 1'b1;
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	data = 1'b0;
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	#5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
-	$finish;
-end
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);
+ #5 $display("Data in: %b out:%b Clock:%0b Oflow:%0b", data, so, clk, oflow);;
+	 $finish;
+ end
 
-always #5 clk = ~clk;
-endmodule
+ always #5 clk = ~clk;
+ endmodule
